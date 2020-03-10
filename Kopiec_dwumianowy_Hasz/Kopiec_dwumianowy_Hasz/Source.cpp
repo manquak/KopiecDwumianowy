@@ -19,7 +19,6 @@ struct str {
 	int filled;
 };
 
-// KORZYSTALEM GLOWNIE Z PSEUDOKODU Z WYKLADOW
 
 Heap *MakeHeap() {
 	Heap *H = new Heap;
@@ -54,7 +53,7 @@ void Link(Heap *y, Heap *z) {
 	z->degree = z->degree + 1;
 }
 
-Heap *Merge(Heap *H1, Heap *H2) { // pseudokod wyklady
+Heap *Merge(Heap *H1, Heap *H2) { 
 								  //Heap *H = MakeHeap();
 	Heap *ret = NULL;
 	Heap *cur = NULL;
@@ -183,7 +182,7 @@ ReturnValue ExtractMax(Heap *H) {
 
 }
 
-Heap *Search(Heap *H, int oldValue) { // https://www.sanfoundry.com/cpp-program-implement-binomial-heap/  
+Heap *Search(Heap *H, int oldValue) { 
 	if (H == NULL) return NULL;
 	Heap* p = NULL;
 	Heap* x = H;
@@ -267,84 +266,5 @@ void InsertA(str *tab, int group) {
 
 
 
-int main() {
-	ReturnValue ret;
-	int n;
-	char operation;
-	int group1;
-	int group2;
-	int value;
-	int oldV;
-	int newV;
-	int indx1;
-	int indx2;
-	str *tab = new str[maxgroup];
-	for (int i = 0; i < maxgroup; i++) {
-		tab[i].first = NULL;
-		tab[i].filled = 0;
-	}
-	scanf("%d", &n);
-	for (int i = 0; i < n; i++) {
-		scanf(" %c", &operation);
-		if (operation == 'a') {
-			scanf("%d %d", &group1, &value);
-			/*cin >> group1;
-			cin >> value;*/
-			indx1 = SearchA(tab, group1);
-			if (indx1 == -1) { InsertA(tab, group1); indx1 = SearchA(tab, group1); }
-			tab[indx1].first = Insert(tab[indx1].first, value);
-		}
-		else if (operation == 'e') {
-			scanf("%d", &group1);
-			/*	cin >> group1;*/
-			indx1 = SearchA(tab, group1);
-			if (indx1 == -1) { InsertA(tab, group1); indx1 = SearchA(tab, group1); }
-			ret = ExtractMax(tab[indx1].first);
-			tab[indx1].first = ret.root;
-			if (ret.write != NULL) printf("%d\n", ret.write->key); /*cout << ret.write->key << endl;*/
-			else printf("na\n");
-		}
-		else if (operation == 'm') {
-			scanf("%d %d", &group1, &group2);
-			/*cin >> group1;
-			cin >> group2;*/
-			indx1 = SearchA(tab, group1);
-			if (indx1 == -1) { InsertA(tab, group1); indx1 = SearchA(tab, group1); }
-			indx2 = SearchA(tab, group2);
-			if (indx2 == -1) { InsertA(tab, group2); indx2 = SearchA(tab, group2); }
-			tab[indx1].first = Union(tab[indx1].first, tab[indx2].first);
-			tab[indx2].first = NULL;
-		}
-		else if (operation == 'i') {
-			scanf("%d %d %d", &group1, &oldV, &newV);
-			/*cin >> group1;
-			cin >> oldV;
-			cin >> newV;*/
-			indx1 = SearchA(tab, group1);
-			if (indx1 == -1) { InsertA(tab, group1); indx1 = SearchA(tab, group1); }
-			IncreaseKey(tab[indx1].first, oldV, newV);
-		}
-		else if (operation == 'p') {
-			scanf("%d", &group1);
-			indx1 = SearchA(tab, group1);
-			if (indx1 == -1) { InsertA(tab, group1); indx1 = SearchA(tab, group1); }
-			Heap *temp = NULL;
-			//if (tab[group1] == NULL) printf("na\n");
-			while (tab[indx1].first != NULL) {
-				ret = ExtractMax(tab[indx1].first);
-				tab[indx1].first = ret.root;
-				temp = Insert(temp, ret.write->key);
-				printf("%d ", ret.write->key);
-			}
-			tab[indx1].first = temp;
-			temp = NULL;
-			printf("\n");
-		}
-	}
-	delete[] tab;
 
 
-	//system("pause");
-	return 0;
-
-}
